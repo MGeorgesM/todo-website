@@ -1,61 +1,76 @@
-const input = document.getElementById("myInput");
-const addBtn = document.getElementById("add-btn");
-const todoList = document.querySelector(".mytodo");
+const input = document.getElementById('myInput');
+const addBtn = document.getElementById('add-btn');
+const todoList = document.getElementById('todo-list');
+let todoTexts = [];
+let todoDeleteBtns = [];
 
-function getInputText() {
-    const inputText = input.value.trim();
-    if (inputText === "") {
-        alert("Please enter a valid task");
+function createTodo() {
+    const inputText = input.value.trim()
+    if (inputText === '') {
+        alert('Please enter a valid task');
         return;
     }
-    createNewTodoElement(inputText)
-}
-
-function createNewTodoElement(inputText) {
-    const todoDiv = document.createElement("div");
-    todoDiv.innerHTML = `<div class="todo-item"><p id="todo-text">${inputText}</p><button class="delete-btn">X</button></div>`;
-
-    const todoText = todoDiv.querySelector("#todo-text");
-    todoDiv.addEventListener("click", function () {
-        console.log('Marking as Done');
-        todoText.classList.toggle("checked");
-        saveTodos();
-    })
-
-    const delBtn = todoDiv.querySelector(".delete-btn")
-    delBtn.addEventListener("click", function () {
-        console.log('Delete Clicked');
-        todoList.removeChild(todoDiv);
-        saveTodos();
-    });
-
-    todoList.appendChild(todoDiv);
+    const todoElement = todoElementGenerator(inputText);
+    todoList.innerHTML += todoElement;
     input.value = "";
-    saveTodos();
+    todoTextEventListener();
+    todoDeleteEventListener();
+    save();
 }
 
-function saveTodos() {
-    const todos = Array.from(document.querySelectorAll('#todo-text'))
-        .map(todo => todo.textContent);
-
-    localStorage.setItem("todos", JSON.stringify(todos));
+function todoElementGenerator(inputText, isChecked = false) {
+    const checkClass = isChecked ? 'checked' : '';
+    return `<div class='todo-item flex space-between primary-text'><p class='todo-text ${checkClass}'>${inputText}</p><button class='delete-btn primary-text white-bg'>X</button></div>`;
 }
 
-function loadTodos() {
-    const savedTodos = JSON.parse(localStorage.getItem("todos"));
-    if (saveTodos) {
-        savedTodos.forEach(todo => {
-            createNewTodoElement(todo)
-        });
+function todoTextEventListener() {
+    const todoTexts = document.querySelectorAll('.todo-text');
+    for (let i = 0; i < todoTexts.length; i++) {
+        todoTexts[i].addEventListener("click", function () {
+            todoTexts[i].classList.toggle("checked");
+            save();
+        })
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadTodos)
-
-addBtn.addEventListener("click", getInputText);
-
-input.addEventListener("keyup", function (event) {
-    if (event.key === "Enter") {
-        createNewTodo();
+function todoDeleteEventListener() {
+    const todoDeleteBtns = document.querySelectorAll('.delete-btn');
+    for (let i = 0; i < todoDeleteBtns.length; i++) {
+        todoDeleteBtns[i].addEventListener("click", function () {
+            const todoToDelete = todoDeleteBtns[i].parentNode;
+            todoToDelete.remove();
+            save();
+        })
     }
-});
+}
+
+function save() {
+    console.log('saving')
+    const todosToSave = [];
+    const todosElements = document.querySelectorAll('.todo-text');
+    for (let i = 0; i < todosElements.length; i++) {
+        const todoToSave = {
+            todoText: todosElements[i].textContent,
+            isChecked: todosElements[i].classList.contains('checked'),
+        };
+
+        todosToSave.push(todoToSave)
+    }
+
+    localStorage.setItem('todos', JSON.stringify(todosToSave));
+}
+
+function load() {
+    console.log('loading')
+    const savedTodos = JSON.parse(localStorage.getItem('todos'));
+    console.log(savedTodos)
+    if (savedTodos) {
+        for (let i = 0; i < savedTodos.length; i++) {
+            todoElementGenerator(savedTodos[i].todoText, savedTodos[i].isChecked)
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', load)
+
+addBtn.addEventListener('click', createTodo);
