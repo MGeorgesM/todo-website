@@ -20,7 +20,10 @@ function createTodo() {
 
 function todoElementGenerator(inputText, isChecked = false) {
     const checkClass = isChecked ? 'checked' : '';
-    return `<div class='todo-item flex space-between primary-text'><p class='todo-text ${checkClass}'>${inputText}</p><button class='delete-btn primary-text white-bg'>X</button></div>`;
+    return `<div class='todo-item flex space-between primary-text'>
+                <p class='todo-text ${checkClass}'>${inputText}</p>
+                <button class='delete-btn primary-text white-bg'>X</button>
+            </div>`;
 }
 
 function todoTextEventListener() {
@@ -61,7 +64,6 @@ function save() {
 
 function load() {
     const savedTodos = JSON.parse(localStorage.getItem('todos'));
-    console.log(savedTodos)
     if (savedTodos) {
         for (let i = 0; i < savedTodos.length; i++) {
             const loadedTodo = todoElementGenerator(savedTodos[i].todoText, savedTodos[i].isChecked)
