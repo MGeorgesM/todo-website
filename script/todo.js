@@ -45,7 +45,6 @@ function todoDeleteEventListener() {
 }
 
 function save() {
-    console.log('saving')
     const todosToSave = [];
     const todosElements = document.querySelectorAll('.todo-text');
     for (let i = 0; i < todosElements.length; i++) {
@@ -61,12 +60,14 @@ function save() {
 }
 
 function load() {
-    console.log('loading')
     const savedTodos = JSON.parse(localStorage.getItem('todos'));
     console.log(savedTodos)
     if (savedTodos) {
         for (let i = 0; i < savedTodos.length; i++) {
-            todoElementGenerator(savedTodos[i].todoText, savedTodos[i].isChecked)
+            const loadedTodo = todoElementGenerator(savedTodos[i].todoText, savedTodos[i].isChecked)
+            todoList.innerHTML += loadedTodo
+            todoTextEventListener();
+            todoDeleteEventListener();
         }
     }
 }
