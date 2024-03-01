@@ -1,7 +1,7 @@
 const input = document.getElementById('myInput');
 const addBtn = document.getElementById('add-btn');
 const todoList = document.getElementById('todo-list');
-let todoTexts = [];
+let todoItems = [];
 let todoDeleteBtns = [];
 
 function createTodo() {
@@ -10,27 +10,28 @@ function createTodo() {
         alert('Please enter a valid task');
         return;
     }
-    const todoElement = todoElementGenerator(inputText);
-    todoList.innerHTML += todoElement;
     input.value = "";
-    todoTextEventListener();
+    todoElementGenerator(inputText);
+    todoItemEventListener();
     todoDeleteEventListener();
     save();
 }
 
 function todoElementGenerator(inputText, isChecked = false) {
     const checkClass = isChecked ? 'checked' : '';
-    return `<div class='todo-item flex space-between primary-text'>
+    const todoToGenerate = `<div class='todo-item flex space-between primary-text'>
                 <p class='todo-text ${checkClass}'>${inputText}</p>
-                <button class='delete-btn primary-text white-bg'>X</button>
+                <button class='delete-btn primary-text white-bg'>x</button>
             </div>`;
+    todoList.innerHTML += todoToGenerate;
 }
 
-function todoTextEventListener() {
-    const todoTexts = document.querySelectorAll('.todo-text');
-    for (let i = 0; i < todoTexts.length; i++) {
-        todoTexts[i].addEventListener("click", function () {
-            todoTexts[i].classList.toggle("checked");
+function todoItemEventListener() {
+    const todoItems = document.querySelectorAll('.todo-item');
+    for (let i = 0; i < todoItems.length; i++) {
+        todoItems[i].addEventListener("click", function () {
+            const todoItem = todoItems[i].querySelector('.todo-text');
+            todoItem.classList.toggle("checked");
             save();
         })
     }
@@ -66,11 +67,10 @@ function load() {
     const savedTodos = JSON.parse(localStorage.getItem('todos'));
     if (savedTodos) {
         for (let i = 0; i < savedTodos.length; i++) {
-            const loadedTodo = todoElementGenerator(savedTodos[i].todoText, savedTodos[i].isChecked)
-            todoList.innerHTML += loadedTodo
-            todoTextEventListener();
-            todoDeleteEventListener();
+            todoElementGenerator(savedTodos[i].todoText, savedTodos[i].isChecked)
         }
+        todoItemEventListener();
+        todoDeleteEventListener();
     }
 }
 

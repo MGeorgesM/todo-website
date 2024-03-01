@@ -9,6 +9,7 @@ h2 {
 }
 
 .todo-input {
+    height: 40px;
     width: 100%;
     padding: 12px;
     border: 1px solid #e9ecef;
@@ -17,6 +18,7 @@ h2 {
 }
 
 .add-btn {
+    height: 40px;
     border: none;
     padding: 12px 16px;
     border-top-right-radius: 4px;
@@ -34,8 +36,15 @@ h2 {
 }
 
 .todo-item {
+    height: 40px;
     border-top: 1px solid #e9ecef;
     padding: 8px;
+}
+
+.todo-item:hover {
+    color: #74c0fc;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .todo-item:first-child {
@@ -45,9 +54,10 @@ h2 {
 .delete-btn {
     text-align: center;
     max-height: 75%;
-    padding: 4px;
+    margin-right: 16px;
     border-radius: 0;
     border: none;
+    cursor: pointer;
 }
 
 .delete-btn:hover {
