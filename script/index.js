@@ -4,21 +4,9 @@ const todoComponent = document.getElementById('todo-component')
 const input = document.getElementById('myInput');
 const addBtn = document.getElementById('add-btn');
 const todoList = document.getElementById('todo-list');
+const logoutBtn = document.getElementById('logout-btn')
 let todoItems = [];
 let todoDeleteBtns = [];
-
-loginForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (username === 'AdminSEF123' && password === 'SeF@ctORy$$456') {
-        loginComponent.classList.toggle('remove');
-        todoComponent.classList.toggle('remove');
-    } else {
-        alert('Invalid username or password');
-    }
-});
 
 function createTodo() {
     const inputText = input.value.trim()
@@ -90,6 +78,24 @@ function load() {
     }
 }
 
+loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (username === 'AdminSEF123' && password === 'SeF@ctORy$$456') {
+        loginComponent.classList.toggle('remove');
+        todoComponent.classList.toggle('remove');
+    } else {
+        alert('Invalid username or password');
+    }
+});
+
 document.addEventListener('DOMContentLoaded', load)
 
 addBtn.addEventListener('click', createTodo);
+
+logoutBtn.addEventListener('click', function () {
+    loginComponent.classList.toggle('remove');
+    todoComponent.classList.toggle('remove');
+})
