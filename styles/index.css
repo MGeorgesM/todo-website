@@ -23,12 +23,16 @@ body {
     font-size: 32px;
     font-weight: 400;
     text-align: center;
-    margin: 16px 0;
+    margin: 16px 0 24px 0;
 }
 
 .form-group {
     width: 100%;
     margin-bottom: 12px;
+}
+
+.login-btn {
+    padding-left: 4px;
 }
 
 .logout-btn:link {
@@ -93,7 +97,7 @@ input {
     background-color: #74c0fc;
 }
 
-.inner-container {
+.inputs-container {
     margin-bottom: 32px;
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05);
 }
@@ -136,8 +140,10 @@ input {
     display: none;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
     .container {
+        display: flex;
+        flex-direction: column;
         max-width: 100%;
         min-width: 0;
         margin: 0;
@@ -161,5 +167,15 @@ input {
     .todo-input {
         border-bottom-left-radius: 0;
         border-top-right-radius: 4px;
+    }
+
+    .exit-section {
+        margin: auto 0 0 0;
+        position: relative;
+    }
+
+    .logout-btn {
+        position: absolute;
+        bottom: 0;
     }
 }
